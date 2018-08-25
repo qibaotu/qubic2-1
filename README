@@ -31,13 +31,13 @@ are provided. See help and look at all available options.
 
 Take a look at `toy_example` (discrete data) first. And try to run clustering
 
-    $ ./qubic -i data/toy_example -d
+    $ ./qubic -i ./data/toy_example -d
 
 -d is important here since it tells the program that this is discrete data.
 
 Then look at a larger file `Ecoli` (continuous data). Try to run
 
-    $ ./qubic -i data/example -f .25
+    $ ./qubic -i ./data/example -f .25
 
 This restricts no two blocks overlap more than 0.25 of the size of each one. And the other parameters are default value.
 
@@ -98,6 +98,9 @@ actual gene expression values to go directly to the biclustering step on the pro
 Basic usages
 ==================
 
+$ ./qubic -i  filename [argument list]
+
+The defualt biclustering method in QUBIC2 uses KL score to control bicluster expansion.
 
 ==================
 Advanced usages
@@ -120,57 +123,47 @@ see details in read_array.c. now the results have each own advantages on GO, KEG
 	==========
 - We can just consider the seeds containing to-be-searched gene name, e.g. B1234
 
-    $ ./qubic -i data/example -g b3634
+    $ ./qubic -i ./data/example -g b3634
 
 - We can just consider the seeds containing a list of genes, e.g. candidate_list
 
-    $ ./qubic -i Ecoli -l candidate_list
+    $ ./qubic -i ./data/example -l candidate_list
 	==========
 
 - S: the flag using area as the value of bicluster to determine when stop
 
-    $ ./qubic -i Ecoli -S
+    $ ./qubic -i ./data/example -S
 
-- N: the flag using KL value as the value of bicluster to determine when stop
+- N: the flag using QUBIC's objective function(i.e., min(|I|,|J|)) to determine when to stop
     
-    $ ./qubic -i example -N
+    $ ./qubic -i ./data/example -N
 	==========
 
-- C: the flag using the lower bound of condition number (5 persents of the gene number)
+- C: the flag using Dual strategy to expand core bicluster 
 
     $ ./qubic -i Ecoli -C
 
+(Note1: when use -C and -N simutaneously, users are using QUBIC's objective function and Dual strategy;
+Note2: when use -C, users should no longer use -c )
+
 - To enlarge current biclsuter by the pvalue constrain 
 
-    $ ./qubic -i Ecoli -P
+    $ ./qubic -i ./data/example -P
 	=========
 
 - To descretize data by the mixture of normal distribution model
 
-    $ ./qubic -i example -n
+    $ ./qubic -i ./data/example -n
 
 - To descretize RPKM data by the mixture of normal distribution model
 
-    $ ./qubic -i example -R
+    $ ./qubic -i ./data/example -R
 
 - F: the flag of only doing discretization
 
-    $ ./qubic -i example -F
+    $ ./qubic -i ./data/example -F -R
 
-- To descretize data by the mixture of 3-normal distribution model
 
-    $ ./qubic -i example -n -3
-
-- To descretize RPKM data by the mixture of 3-normal distribution model
-
-    $ ./qubic -i example -R -3 
-	=========
-
-- Calculate the similarity between two genes consider spearman correlation and KL-information
-
-    $ ./qubic -i example -p
-
-- The gene descretization base on kernel density estimation is stored in script/discretization-kernal-clustering. 
 ==================
 Changelog
 ==================
