@@ -1,1 +1,1 @@
-# qubic2
+A Novel Biclustering algorithm for analyses of Transcriptomic Data
